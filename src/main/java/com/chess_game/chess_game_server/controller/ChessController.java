@@ -1,22 +1,22 @@
 package com.chess_game.chess_game_server.controller;
 
-import com.chess_game.chess_game_server.dto.BoardResponse;
-import com.chess_game.chess_game_server.model.ChessPieces.ChessPiece;
-import com.chess_game.chess_game_server.service.ChessGameService;
+import com.chess_game.chess_game_server.dto.MoveResponse;
+import com.chess_game.chess_game_server.dto.PieceResponse;
+import com.chess_game.chess_game_server.service.ClassicChessGameService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class ChessController {
 
-    ChessGameService chessGameService;
-    public ChessController(ChessGameService chessGameService) {
+    ClassicChessGameService chessGameService;
+    public ChessController(ClassicChessGameService chessGameService) {
         this.chessGameService = chessGameService;
     }
 
     @GetMapping("/board")
-    public BoardResponse getBoard() {
-        return chessGameService.getBoardState();
+    public PieceResponse[][] getBoard() {
+        return chessGameService.getBoardState().getBoard();
     }
 
     @PostMapping("/move")
@@ -24,4 +24,14 @@ public class ChessController {
         System.out.println("Jogada recebida: " + body);
         return "{\"status\": \"Jogada processada com sucesso\"}";
     }
+
+    @GetMapping("/moves")
+    public MoveResponse getPiecePossibleMoves(
+            @RequestParam int row,
+            @RequestParam int column
+    ) {
+        boolean[][] possibleMoves = chessGameService.getPossibleMoves(row, column);
+        return new MoveResponse(possibleMoves);
+    }
+
 }

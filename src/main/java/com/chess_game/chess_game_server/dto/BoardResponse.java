@@ -1,7 +1,7 @@
 package com.chess_game.chess_game_server.dto;
 
 import com.chess_game.chess_game_server.model.Board;
-import com.chess_game.chess_game_server.model.ChessPieces.ChessPiece;
+import com.chess_game.chess_game_server.model.ChessPieces.Piece;
 
 public class BoardResponse {
 
@@ -12,7 +12,7 @@ public class BoardResponse {
         for(int x = 0; x < 8; x++){
             for(int y = 0; y < 8; y++){
                 this.board[x][y] = null;
-                ChessPiece piece = board.getPieceAt(x, y);
+                Piece piece = board.getPieceAt(x, y);
                 if(piece != null){
                     this.board[x][y] = new PieceResponse(piece);
                 }
