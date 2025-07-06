@@ -1,14 +1,22 @@
 package com.chess_game.chess_game_server.controller;
 
+import com.chess_game.chess_game_server.dto.BoardResponse;
+import com.chess_game.chess_game_server.model.ChessPieces.ChessPiece;
+import com.chess_game.chess_game_server.service.ChessGameService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api")
 public class ChessController {
 
+    ChessGameService chessGameService;
+    public ChessController(ChessGameService chessGameService) {
+        this.chessGameService = chessGameService;
+    }
+
     @GetMapping("/board")
-    public String getBoard() {
-        return "{\"board\": \"estado do tabuleiro\"}";
+    public BoardResponse getBoard() {
+        return chessGameService.getBoardState();
     }
 
     @PostMapping("/move")
